@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
+export JOBS=6
+export BIN_UTILS="binutils-2.32"
+export GCC="gcc-9.1.0"
+
 SOURCEDIR="$(cd ${0%/*} ; pwd)"
 ROOTDIR="$1"
 if ! [[ -d ${ROOTDIR} ]] ; then
@@ -17,10 +21,6 @@ fi
 cd ${ROOTDIR}
 ROOTDIR=$(pwd)
 echo "INFO: root dir is ${ROOTDIR}"
-
-export JOBS=6
-export BIN_UTILS="binutils-2.32"
-export GCC="gcc-9.1.0"
 
 export TOOLCHAIN="${SOURCEDIR}/toolchains/aarch64"
 if ! [[ -d ${TOOLCHAIN} ]] ; then
