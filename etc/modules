@@ -1,0 +1,4 @@
+bcm2835_rng
+snd_bcm2835
+i2c-bcm2708
+i2c-dev

@@ -1,0 +1,40 @@
+#!/bin/sh
+
+TOMCAT_USER="pi"
+
+echo "INFO: Running rc.local..."
+
+if [ ! -f /etc/.rootfs-expanded ] ; then
+  echo "INFO: Resizing root file system..."
+  cd /opt/raspi-config
+  chmod u+x ./raspi-config
+  ./raspi-config --expand-rootfs
+  touch /etc/.rootfs-expanded
+
+  echo "INFO: Resized root file system, rebooting..."
+  if ! /sbin/shutdown -r now ; then
+    echo "ERROR: Failed to send reboot!"
+  fi
+  exit 0
+fi
+
+echo "INFO: Refreshing shared libraries"
+/sbin/ldconfig
+
+echo "INFO: Loading iptables rules..."
+/sbin/iptables-restore < /etc/network/iptables.rules
+
+# easiest way to get swiss german keyboard working
+echo "INFO: Loading swiss german keyboard layout..."
+/usr/bin/loadkeys sg-latin1
+
+echo "INFO: Setting I2C CLKT_TOUT to 1000..."
+/usr/local/bin/i2c_set_clkt_tout 1000
+
+echo "INFO: Starting Tomcat..."
+sudo -u ${TOMCAT_USER} /opt/tomcat/bin/catalina.sh start
+
+echo "INFO: Starting OWFS..."
+/usr/bin/owfs &
+
+exit 0

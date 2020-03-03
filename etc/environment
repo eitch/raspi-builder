@@ -1,0 +1,2 @@
+JAVA_HOME=/usr/lib/jvm/bellsoft-java11-aarch64
+CATALINA_HOME=/opt/tomcat
