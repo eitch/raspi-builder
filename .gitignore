@@ -9,3 +9,5 @@
 *.iml
 toolchains/
 bellsoft*.deb
+*.list
+apache-tomcat-*
