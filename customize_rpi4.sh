@@ -6,8 +6,8 @@ TOMCAT_VERSION=9.0.31
 TOMCAT_FILE=apache-tomcat-9.0.31.tar.gz
 TOMCAT_URL=http://mirror.easyname.ch/apache/tomcat/tomcat-9/v9.0.31/bin/apache-tomcat-9.0.31.tar.gz
 
-WIRING_PI_VERSION=2.50
-WIRING_PI_DEB=wiringpi-2.50-1_arm64.deb
+WIRING_PI_VERSION=2.60
+WIRING_PI_DEB=wiringpi-2.60-1_arm64.deb
 
 JAVA_VERSION=11.0.6+10
 JAVA_DEB=bellsoft-jdk11.0.6+10-linux-aarch64.deb
