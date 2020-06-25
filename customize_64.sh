@@ -2,9 +2,9 @@
 
 NEW_USER="pi"
 
-TOMCAT_VERSION=9.0.31
-TOMCAT_FILE=apache-tomcat-9.0.31.tar.gz
-TOMCAT_URL=http://mirror.easyname.ch/apache/tomcat/tomcat-9/v9.0.31/bin/apache-tomcat-9.0.31.tar.gz
+TOMCAT_VERSION=9.0.36
+TOMCAT_FILE=apache-tomcat-9.0.36.tar.gz
+TOMCAT_URL=https://downloads.apache.org/tomcat/tomcat-9/v9.0.36/bin/apache-tomcat-9.0.36.tar.gz
 
 WIRING_PI_VERSION=2.60
 WIRING_PI_DEB=wiringpi-2.60-1_arm64.deb
@@ -30,13 +30,14 @@ export DEBIAN_FRONTEND=noninteractive
 mkdir -p ${ROOTDIR}/etc/apt/sources.list.d/
 mkdir -p ${ROOTDIR}/etc/apt/apt.conf.d/
 echo "Acquire::http { Proxy \"http://localhost:3142\"; };" > ${ROOTDIR}/etc/apt/apt.conf.d/50apt-cacher-ng
-cp ${SOURCEDIR}/etc/apt/sources_64.list ${ROOTDIR}/etc/apt/sources.list
+#cp ${SOURCEDIR}/etc/apt/sources_64.list ${ROOTDIR}/etc/apt/sources.list
 cp ${SOURCEDIR}/etc/apt/apt.conf.d/50raspi ${ROOTDIR}/etc/apt/apt.conf.d/50raspi
 chroot ${ROOTDIR} apt-get update
 chroot ${ROOTDIR} apt-get -y dist-upgrade
 chroot ${ROOTDIR} apt-get clean -y
 chroot ${ROOTDIR} apt-get autoclean -y
 chroot ${ROOTDIR} apt-get autoremove -y
+
 
 # configure locale
 echo
@@ -132,12 +133,11 @@ echo "INFO: JDK ${JAVA_VERSION} installed."
 # Configuring boot
 echo
 echo "INFO: Configuring boot..."
-cp ${SOURCEDIR}/boot/cmdline_rpi4.txt ${ROOTDIR}/boot/cmdline.txt
-cp ${SOURCEDIR}/boot/config_rpi4.txt ${ROOTDIR}/boot/config.txt
+cp ${SOURCEDIR}/boot/cmdline_64.txt ${ROOTDIR}/boot/cmdline.txt
+cp ${SOURCEDIR}/boot/config_64.txt ${ROOTDIR}/boot/config.txt
 cp ${SOURCEDIR}/etc/default/* ${ROOTDIR}/etc/default/
 cp ${SOURCEDIR}/etc/fstab ${ROOTDIR}/etc/fstab
 cp ${SOURCEDIR}/etc/modules ${ROOTDIR}/etc/modules
-cp -r ${SOURCEDIR}/etc/wiringpi ${ROOTDIR}/etc/wiringpi
 cp ${SOURCEDIR}/etc/network/iptables.rules ${ROOTDIR}/etc/network/iptables.rules
 cp ${SOURCEDIR}/etc/rc.local ${ROOTDIR}/etc/rc.local
 ln -fs /dev/null ${ROOTDIR}/etc/systemd/network/99-dhcp.network
@@ -147,7 +147,7 @@ chmod a+x ${ROOTDIR}/etc/rc.local
 # Install kernel.
 echo
 echo "INFO: Installing kernel..."
-${SOURCEDIR}/install-kernel-rpi4.sh ${ROOTDIR}
+${SOURCEDIR}/install-kernel-64.sh ${ROOTDIR}
 
 
 # Regenerate SSH host keys on first boot.

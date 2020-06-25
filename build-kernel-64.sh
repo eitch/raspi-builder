@@ -1,5 +1,11 @@
 #!/bin/bash -e
 
+export ARCH=arm64
+export CROSS_COMPILE=aarch64-linux-gnu-
+export KBUILD_OUTPUT=./kernel-build/
+export INSTALL_MOD_PATH="./kernel-install"
+export PATH=$PATH:$TOOLCHAIN/bin
+
 if ! which bison > /dev/null || ! which flex > /dev/null ; then
   echo "INFO: Calling sudo to install bison and flex"
   sudo apt-get install bison flex
@@ -19,12 +25,6 @@ git checkout rpi-4.19.y # change the branch name for newer versions
 git reset --hard
 
 mkdir -p kernel-build
-
-export ARCH=arm64
-export CROSS_COMPILE=aarch64-linux-gnu-
-export KBUILD_OUTPUT=./kernel-build/
-export INSTALL_MOD_PATH="./kernel-install"
-export PATH=$PATH:$TOOLCHAIN/bin
 
 make bcm2711_defconfig
 make -j${JOBS}

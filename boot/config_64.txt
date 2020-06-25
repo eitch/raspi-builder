@@ -60,15 +60,12 @@ dtoverlay=pwm
 # Enable DRM VC4 V3D driver on top of the dispmanx display stack
 dtoverlay=vc4-fkms-v3d
 max_framebuffers=2
+armstub=armstub8-gic.bin
+enable_gic=1
 
 [all]
 dtoverlay=vc4-fkms-v3d
 enable_uart=1
 dtoverlay=pi3-disable-bt
-armstub=armstub8-gic.bin
-enable_gic=1
 arm_64bit=1
-#total_mem=1024
-# differentiate from Pi3 64-bit kernels
-#kernel=kernel8-p4.img
-#kernel=kernel8-5.3.img
+arm_control=0x200

@@ -1,4 +1,9 @@
-#!/bin/sh -e
+#!/bin/bash -e
+
+if [[ "$(whoami)" != "root" ]] ; then
+  echo -e "ERROR: This script must run as root!"
+  exit 1
+fi
 
 SOURCEDIR=$(dirname $0)
 
@@ -13,13 +18,7 @@ check_installed vmdebootstrap
 check_installed apt-cacher-ng
 check_installed qemu-aarch64-static
 
-#if [ -z "$MIRROR" ]; then
-#    MIRROR=mirrordirector.raspbian.org/raspbian
-#fi
-#export MIRROR
-#    --mirror http://localhost:3142/$MIRROR \
-
-IMAGE=`date +raspbian-rpi4_arm64-%Y%m%d.img`
+IMAGE=`date +raspbian_arm64-%Y%m%d.img`
 
 # sudo vi /usr/lib/python2.7/dist-packages/vmdebootstrap/constants.py
 #    ---
@@ -44,8 +43,9 @@ IMAGE=`date +raspbian-rpi4_arm64-%Y%m%d.img`
 
 echo "INFO: Starting vmdebootstrap..."
 vmdebootstrap \
+    --verbose \
     --arch arm64 \
-    --distribution stretch \
+    --distribution buster \
     --image "$IMAGE" \
     --size 2500M \
     --roottype ext4 \
@@ -65,9 +65,8 @@ vmdebootstrap \
     --no-acpid \
     --hostname raspbian \
     --foreign /usr/bin/qemu-aarch64-static \
-    --debootstrapopts="keyring=$SOURCEDIR/signatures/debian.org.gpg.asc" \
+    --debootstrapopts="keyring=$SOURCEDIR/signatures/release-10.asc" \
     --package netbase \
-    --pkglist \
-    --customize $(dirname $0)/customize_rpi4.sh
+    --customize $(dirname $0)/customize_64.sh
 
 $(dirname $0)/autosizer.sh "$IMAGE" 50

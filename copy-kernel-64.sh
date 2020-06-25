@@ -47,6 +47,6 @@ echo "INFO: Copying firmware..."
 rsync -av firmware-nonfree/* "${ROOTDIR}/lib/firmware"
 
 echo "INFO: Copying config.txt..."
-cp ../../boot/config_rpi4.txt "${BOOTDIR}/config.txt"
+cp ../../boot/config_64.txt "${BOOTDIR}/config.txt"
 
 exit 0
